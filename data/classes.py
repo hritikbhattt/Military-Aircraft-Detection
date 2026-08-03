@@ -1,49 +1,41 @@
 """
-Canonical class list for the 36 supported aircraft.
+Canonical class list for the Military Aircraft Detection model.
 
-CLASSES is the order used everywhere (YOLO class indices == list index).
-RAW_TO_CLASS maps the short codes used in the source Kaggle dataset's
-annotation CSVs (e.g. "F16", "SU57") to our display names (e.g. "F-16", "Su-57").
-Extend RAW_TO_CLASS if you add more source aircraft codes later.
+Source: labels_with_split.csv from the Kaggle "Military Aircraft Detection
+Dataset" (a2015003713). These are the exact 103 class labels as they appear
+in the dataset's `class` column.
 """
 
-CLASSES = [
-    "F-22", "F-35", "F-16", "F-15", "F-18", "F-14", "F-4",
-    "B-2", "B-1", "B-52", "F-117", "SR-71",
-    "A-10", "C-130", "C-17", "C-5", "U-2",
-    "YF-23", "XB-70",
-    "Su-57", "MiG-31", "Tu-95", "Tu-160", "J-20",
-    "Rafale", "EF2000", "JAS-39", "Mirage-2000",
-    "V-22", "MQ-9", "RQ-4", "E-2",
-    "AG600", "Be200", "US-2", "A400M",
+# Sorted list of all 103 aircraft classes in the dataset.
+CANONICAL_CLASSES = [
+    "A10", "A400M", "AG600", "AH64", "AKINCI", "AV8B", "An124", "An22",
+    "An225", "An72", "B1", "B2", "B21", "B52", "Be200", "C1", "C130", "C17",
+    "C2", "C390", "C5", "CH47", "CH53", "CL415", "E2", "E7", "EF2000",
+    "EMB314", "F117", "F14", "F15", "F16", "F18", "F2", "F22", "F35", "F4",
+    "FCK1", "H6", "Il76", "J10", "J20", "J35", "J36", "J50", "JAS39", "JF17",
+    "JH7", "KAAN", "KC135", "KF21", "KIZILELMA", "KJ600", "Ka27", "Ka52",
+    "MQ20", "MQ25", "MQ28", "MQ35", "MQ9", "Mi24", "Mi26", "Mi28", "Mi8",
+    "Mig29", "Mig31", "Mirage2000", "NH90", "P3", "RQ4", "Rafale", "SR71",
+    "Su24", "Su25", "Su34", "Su47", "Su57", "T50", "TB001", "TB2", "Tejas",
+    "Tornado", "Tu160", "Tu22M", "Tu95", "U2", "UH60", "US2", "V22", "V280",
+    "Vulcan", "WZ10", "WZ7", "WZ9", "X29", "X32", "XB70", "XQ58", "Y20",
+    "YF23", "Z10", "Z19", "Z21",
 ]
 
-assert len(CLASSES) == 36
+NUM_CLASSES = len(CANONICAL_CLASSES)
 
-# Maps raw label strings found in the source dataset's CSV annotations
-# to the canonical names above. Keys are upper-cased/underscore-stripped
-# at lookup time, so "f16", "F16", "F-16" all resolve the same way.
-RAW_TO_CLASS = {
-    "F22": "F-22", "F35": "F-35", "F16": "F-16", "F15": "F-15",
-    "F18": "F-18", "F14": "F-14", "F4": "F-4",
-    "B2": "B-2", "B1": "B-1", "B52": "B-52",
-    "F117": "F-117", "SR71": "SR-71", "SR71A12": "SR-71",
-    "A10": "A-10", "C130": "C-130", "C17": "C-17", "C5": "C-5", "U2": "U-2",
-    "YF23": "YF-23", "XB70": "XB-70",
-    "SU57": "Su-57", "MIG31": "MiG-31", "TU95": "Tu-95",
-    "TU142": "Tu-95", "TU160": "Tu-160", "J20": "J-20",
-    "RAFALE": "Rafale", "EF2000": "EF2000", "JAS39": "JAS-39",
-    "MIRAGE2000": "Mirage-2000",
-    "V22": "V-22", "MQ9": "MQ-9", "RQ4": "RQ-4", "E2": "E-2",
-    "AG600": "AG600", "BE200": "Be200", "US2": "US-2", "A400M": "A400M",
-}
+# Maps class name -> index (0-based), used to build YOLO label files.
+CLASS_TO_INDEX = {name: i for i, name in enumerate(CANONICAL_CLASSES)}
+INDEX_TO_CLASS = {i: name for name, i in CLASS_TO_INDEX.items()}
 
 
-def normalize_raw_label(raw: str) -> str | None:
-    """Return the canonical class name for a raw dataset label, or None if unsupported."""
-    key = raw.strip().upper().replace("-", "").replace("_", "").replace(" ", "")
-    return RAW_TO_CLASS.get(key)
-
-
-def class_index(name: str) -> int:
-    return CLASSES.index(name)
+def normalize_label(raw_label: str) -> str:
+    """
+    Cleans a raw label string from the CSV (strips whitespace) and validates
+    it against the canonical class list. Raises if it's not a known class,
+    so bad rows fail loudly instead of silently getting dropped later.
+    """
+    cleaned = raw_label.strip()
+    if cleaned not in CLASS_TO_INDEX:
+        raise ValueError(f"Unknown aircraft class label: {raw_label!r}")
+    return cleaned
