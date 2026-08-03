@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Dataset (large, downloaded via prepare_dataset.py)
+data/raw/
+data/images/
+data/labels/
+data/*.cache
+
+# Model weights (keep only the final best.pt you choose to ship)
+runs/
+models/*.pt
+!models/.gitkeep
+
+# Outputs
+outputs/
+test_files/*_out.*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
