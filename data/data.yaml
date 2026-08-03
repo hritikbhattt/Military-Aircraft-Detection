@@ -1,7 +1,7 @@
 # Ultralytics YOLOv8 dataset config
 # Paths are relative to this file's location (data/)
 
-path: .
+path: data
 train: images/train
 val: images/validation
 test: images/test
