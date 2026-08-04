@@ -1,5 +1,5 @@
 """
-Train a YOLOv8 model on the 36-class military aircraft dataset.
+Train a YOLOv8 model on the 103-class military aircraft dataset.
 
 Usage:
     python scripts/train.py
