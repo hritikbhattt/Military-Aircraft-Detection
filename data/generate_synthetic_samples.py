@@ -62,7 +62,7 @@ def main():
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
-    splits = {"train": args.per_class, "val": max(1, args.per_class // 4)}
+    splits = {"train": args.per_class, "validation": max(1, args.per_class // 4)}
 
     for split, n_per_class in splits.items():
         img_dir = HERE / "images" / split
