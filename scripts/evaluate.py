@@ -85,6 +85,8 @@ def main():
 
     data_cfg = yaml.safe_load(Path(args.data).read_text())
     class_names = data_cfg["names"]
+    if isinstance(class_names, dict):
+        class_names = [class_names[i] for i in sorted(class_names.keys())]
     data_root = Path(args.data).resolve().parent
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
