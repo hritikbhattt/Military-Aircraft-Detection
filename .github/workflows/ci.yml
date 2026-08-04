@@ -35,5 +35,5 @@ jobs:
         run: python scripts/train.py --model yolov8n.pt --epochs 1 --batch 8 --imgsz 320 --device cpu --workers 2
       - name: Run detect.py on a synthetic sample
         run: |
-          IMG=$(ls data/images/val/*.jpg | head -n 1)
+          IMG=$(ls data/images/validation/*.jpg | head -n 1)
           python scripts/detect.py --source "$IMG" --weights models/best.pt --conf 0.1
