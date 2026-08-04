@@ -22,7 +22,7 @@ import numpy as np
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from classes import CLASSES
+from classes import CANONICAL_CLASSES as CLASSES
 
 HERE = Path(__file__).resolve().parent
 IMG_SIZE = 320
