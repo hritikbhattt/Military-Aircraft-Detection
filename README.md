@@ -144,5 +144,3 @@ military-aircraft-detection/
 - **Why a synthetic dataset generator?** Real dataset download + training is a 30-60+ minute GPU commitment; the synthetic generator produces exact, known bounding boxes so path/shape/config bugs in the pipeline surface in seconds, both locally and in CI.
 - **Class normalization**: the source dataset's raw labels don't always match a clean display name (`SR71` vs `SR71A12` vs `SR-71`); `data/classes.py` centralizes that mapping so it's the single place to extend if the dataset adds more aircraft.
 
-## Author
-Dhruv Gaur
