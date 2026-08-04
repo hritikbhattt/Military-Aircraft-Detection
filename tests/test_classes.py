@@ -4,37 +4,36 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "data"))
 
-from classes import CLASSES, class_index, normalize_raw_label
+from classes import CANONICAL_CLASSES, CLASS_TO_INDEX, INDEX_TO_CLASS, normalize_label
 from prepare_dataset import voc_to_yolo
 
 
 class TestClassNormalization(unittest.TestCase):
-    def test_exact_codes_map_correctly(self):
-        self.assertEqual(normalize_raw_label("F16"), "F-16")
-        self.assertEqual(normalize_raw_label("SU57"), "Su-57")
-        self.assertEqual(normalize_raw_label("A10"), "A-10")
+    def test_known_label_returns_unchanged(self):
+        self.assertEqual(normalize_label("F16"), "F16")
+        self.assertEqual(normalize_label("Su57"), "Su57")
+        self.assertEqual(normalize_label("A10"), "A10")
 
-    def test_case_and_punctuation_insensitive(self):
-        self.assertEqual(normalize_raw_label("f-16"), "F-16")
-        self.assertEqual(normalize_raw_label("f_16"), "F-16")
-        self.assertEqual(normalize_raw_label(" F16 "), "F-16")
+    def test_whitespace_is_stripped(self):
+        self.assertEqual(normalize_label(" F16 "), "F16")
+        self.assertEqual(normalize_label("F16\n"), "F16")
 
-    def test_unsupported_label_returns_none(self):
-        self.assertIsNone(normalize_raw_label("Su27"))
-        self.assertIsNone(normalize_raw_label("Passenger"))
+    def test_unknown_label_raises(self):
+        with self.assertRaises(ValueError):
+            normalize_label("Su27")
+        with self.assertRaises(ValueError):
+            normalize_label("Passenger")
 
-    def test_all_36_classes_have_at_least_one_raw_mapping(self):
-        from classes import RAW_TO_CLASS
-        mapped_targets = set(RAW_TO_CLASS.values())
-        missing = set(CLASSES) - mapped_targets
-        self.assertEqual(missing, set(), f"Classes with no raw-label mapping: {missing}")
+    def test_exactly_103_classes(self):
+        self.assertEqual(len(CANONICAL_CLASSES), 103)
 
     def test_no_duplicate_class_names(self):
-        self.assertEqual(len(CLASSES), len(set(CLASSES)))
+        self.assertEqual(len(CANONICAL_CLASSES), len(set(CANONICAL_CLASSES)))
 
-    def test_class_index_roundtrip(self):
-        for i, name in enumerate(CLASSES):
-            self.assertEqual(class_index(name), i)
+    def test_class_to_index_roundtrip(self):
+        for i, name in enumerate(CANONICAL_CLASSES):
+            self.assertEqual(CLASS_TO_INDEX[name], i)
+            self.assertEqual(INDEX_TO_CLASS[i], name)
 
 
 class TestVocToYolo(unittest.TestCase):
