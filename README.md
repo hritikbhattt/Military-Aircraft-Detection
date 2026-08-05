@@ -1,9 +1,5 @@
 # Military Aircraft Detection (YOLOv8)
 
-![CI](https://github.com/hritikbhattt/Military-Aircraft-Detection/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/python-3.10%2B-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 A YOLOv8 object detector that identifies and classifies **103 military aircraft types** - fighters, bombers, transports, helicopters, and UAVs - in images, video, and live webcam feeds. Trained on 17,687 images and evaluated on a held-out 1,572-image test set, achieving **65.5% mAP50**. Covers the full pipeline: dataset preparation, training, evaluation, and inference, with unit tests and CI.
 
 ![Inference Demo](assets/Screenshot-inference.png)
