@@ -1,10 +1,10 @@
 # Military Aircraft Detection (YOLOv8)
 
 ![CI](https://github.com/hritikbhattt/Military-Aircraft-Detection/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-Real-time military aircraft detection and classification across **103 aircraft types** - fighters, bombers, transports, reconnaissance, UAVs, and helicopters - built on YOLOv8. Supports image, video, and webcam inference with a modular, testable pipeline: dataset preparation -> training -> evaluation -> inference.
+A YOLOv8 object detector that identifies and classifies **103 military aircraft types** - fighters, bombers, transports, helicopters, and UAVs - in images, video, and live webcam feeds. Trained on 17,687 images and evaluated on a held-out 1,572-image test set, achieving **65.5% mAP50**. Covers the full pipeline: dataset preparation, training, evaluation, and inference, with unit tests and CI.
 
 ![Inference Demo](assets/Screenshot-inference.png)
 
@@ -28,10 +28,10 @@ This project trains a YOLOv8 object detector to localize and classify military a
 
 - **Data preparation**: converts a VOC-style annotated dataset (single `labels_with_split.csv` source of truth, with a pre-assigned train/validation/test split) into YOLO format.
 - **Training**: configurable YOLOv8 fine-tuning (model size, epochs, image size, early stopping) via `scripts/train.py`.
-- **Evaluation**: official Ultralytics `val()` metrics (mAP50, mAP50-95, precision, recall) on a held-out test split, plus an independent per-class AP report.
+- **Evaluation**: official Ultralytics `val()` metrics (mAP50, mAP50-95, precision, recall) on a held-out test split, plus an independent per-class AP report with a visual chart.
 - **Inference**: unified `detect.py` CLI for images, video files, and a live webcam feed.
-- **Testing & CI**: unit tests for the box-conversion math and metrics implementation, plus a GitHub Actions workflow.
-
+- **Testing & CI**: 19 unit tests covering the box-conversion math and metrics implementation, enforced on every push via GitHub Actions (currently passing).
+  
 ## Supported Aircraft
 103 classes total, including `F22` `F35` `F16` `F15` `F18` `F14` `F4` `B2` `B1` `B52` `F117` `SR71` `A10` `C130` `C17` `C5` `U2` `YF23` `XB70` `Su57` `Mig31` `Tu95` `Tu160` `J20` `Rafale` `EF2000` `JAS39` `Mirage2000` `V22` `MQ9` `RQ4` `E2` `AG600` `Be200` `US2` `A400M` and many more (helicopters, UAVs, and additional fighters/bombers/transports). The full canonical list of all 103 classes is defined in `data/classes.py`.
 
