@@ -22,6 +22,7 @@ def load_model():
 model = load_model()
 
 st.markdown("""
+<div class="hero-wrap">
 <div class="desc-card">
     A YOLOv8 object detector trained to identify and classify <b>103 military aircraft types</b> —
     fighters, bombers, transports, helicopters, and UAVs. Upload a photo, use your camera, or try one
@@ -29,14 +30,12 @@ st.markdown("""
     with its predicted class and confidence score.
     &nbsp;<a href="https://github.com/hritikbhattt/Military-Aircraft-Detection" target="_blank">View full project on GitHub →</a>
 </div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
 <div class="stat-row">
     <div class="stat-card"><div class="lbl">Aircraft Classes</div><div class="num accent">103</div></div>
     <div class="stat-card"><div class="lbl">mAP50 (Test Set)</div><div class="num accent">65.5%</div></div>
     <div class="stat-card"><div class="lbl">Training Images</div><div class="num">17,687</div></div>
     <div class="stat-card"><div class="lbl">Test Images</div><div class="num">1,572</div></div>
+</div>
 </div>
 """, unsafe_allow_html=True)
 

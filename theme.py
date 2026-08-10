@@ -35,40 +35,80 @@ PAGES = [
 def inject_css():
     st.markdown("""
     <style>
-        [data-testid="stSidebar"] { display: none; }
-        [data-testid="collapsedControl"] { display: none; }
+        header { display: none !important; visibility: hidden !important; height: 0 !important; }
+        [data-testid="stSidebar"] { display: none !important; }
+        [data-testid="collapsedControl"] { display: none !important; }
+        [data-testid="stSidebarCollapsedControl"] { display: none !important; }
+        [data-testid="stSidebarNav"] { display: none !important; }
+        button[title="Open sidebar"] { display: none !important; }
+        button[title="Close sidebar"] { display: none !important; }
         .stApp { background-color: #FFFFFF; }
-        .block-container { padding-top: 1rem; max-width: 1100px; }
+        .block-container { padding-top: 0.6rem; padding-left: 2rem; padding-right: 2rem; max-width: 1180px; }
+
+        .hero-wrap {
+            background-color: #FAFAFA;
+            background-image:
+                linear-gradient(#EDEFF2 1px, transparent 1px),
+                linear-gradient(90deg, #EDEFF2 1px, transparent 1px);
+            background-size: 26px 26px;
+            border: 1px solid #E5E7EB;
+            border-radius: 16px;
+            padding: 1.4rem 1.5rem;
+            margin-bottom: 1.4rem;
+        }
+        .section-divider {
+            height: 1px; background: #E5E7EB; margin: 1.6rem 0; border: none;
+        }
+        .bar-row { margin: 10px 0 16px 0; }
+        .bar-label {
+            display: flex; justify-content: space-between; font-size: 0.85rem;
+            color: #4B5563; font-weight: 600; margin-bottom: 5px;
+        }
+        .bar-track {
+            background: #E5E7EB; border-radius: 8px; height: 10px; overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%; border-radius: 8px;
+            background: linear-gradient(90deg, #FDBA74, #EA580C);
+            width: 0%;
+            animation: growBar 1.1s ease-out forwards;
+        }
+        @keyframes growBar { to { width: var(--target-width); } }
 
         .navbar {
             position: sticky; top: 0; z-index: 999;
             display: flex; align-items: center; justify-content: space-between;
-            background: #FFFFFF; border-bottom: 1px solid #F0E4DA;
-            padding: 0.7rem 0.2rem; margin: -1rem -1rem 1.6rem -1rem;
-            padding-left: 1rem; padding-right: 1rem;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+            border-bottom: 1px solid #F0E4DA;
+            width: 100%; padding: 0.65rem 0.3rem; margin: 0 0 1.5rem 0;
         }
         .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .brand-badge {
-            width: 36px; height: 36px; border-radius: 10px;
-            background: linear-gradient(135deg, #FB923C, #EA580C);
+            width: 38px; height: 38px; border-radius: 11px;
+            background: linear-gradient(135deg, #FDBA74, #EA580C 60%, #C2410C);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 6px rgba(234,88,12,0.25);
+            box-shadow: 0 3px 10px rgba(234,88,12,0.35);
+            transition: transform 0.2s ease;
         }
-        .brand-name { font-weight: 700; color: #1F2937; font-size: 1.02rem; }
+        .brand:hover .brand-badge { transform: scale(1.06) rotate(-4deg); }
+        .brand-name { font-weight: 800; color: #1F2937; font-size: 1.02rem; letter-spacing: -0.01em; }
         .nav-links { display: flex; gap: 4px; }
         .nav-link {
+            position: relative;
             text-decoration: none; color: #6B7280; font-size: 0.9rem; font-weight: 600;
-            padding: 8px 14px; border-radius: 8px; transition: all 0.15s ease;
+            padding: 8px 14px; border-radius: 8px; transition: all 0.18s ease;
         }
         .nav-link:hover { background: #FFF7ED; color: #EA580C; }
-        .nav-link.active { background: #FFEDD5; color: #EA580C; }
+        .nav-link.active { background: linear-gradient(135deg, #FFF1E3, #FFE4CC); color: #C2410C; }
 
         .icon-badge {
             width: 42px; height: 42px; border-radius: 12px;
-            background: linear-gradient(135deg, #FB923C, #EA580C);
+            background: linear-gradient(135deg, #FDBA74, #EA580C 60%, #C2410C);
             display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 2px 8px rgba(234,88,12,0.22); flex-shrink: 0;
+            box-shadow: 0 3px 10px rgba(234,88,12,0.3); flex-shrink: 0;
+            transition: transform 0.2s ease;
         }
+        .page-header:hover .icon-badge { transform: scale(1.05) rotate(-3deg); }
         .page-header {
             display: flex; align-items: center; gap: 14px;
             padding: 1rem 1.3rem; background: #FFFFFF; border: 1px solid #F0E4DA;
@@ -82,7 +122,9 @@ def inject_css():
             background: #FFFFFF; border: 1px solid #F0E4DA; border-radius: 14px;
             padding: 1.2rem 1.4rem; margin-bottom: 1.2rem;
             box-shadow: 0 1px 4px rgba(234,88,12,0.05);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
         }
+        .panel:hover { box-shadow: 0 6px 18px rgba(234,88,12,0.1); transform: translateY(-1px); }
         .desc-card { color: #4B5563; line-height: 1.55; }
         .panel h3, .panel h4 { margin-top: 0; color: #1F2937; }
         .panel p, .panel li { color: #4B5563; line-height: 1.6; }
@@ -91,7 +133,9 @@ def inject_css():
         .stat-card {
             flex: 1; min-width: 160px; background: #FFFFFF; border: 1px solid #F0E4DA;
             border-radius: 14px; padding: 1.05rem 1.2rem; box-shadow: 0 1px 4px rgba(234,88,12,0.05);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
         }
+        .stat-card:hover { box-shadow: 0 8px 20px rgba(234,88,12,0.14); transform: translateY(-2px); }
         .stat-card .lbl {
             font-size: 0.76rem; color: #9CA3AF; text-transform: uppercase;
             letter-spacing: 0.03em; font-weight: 600; margin-bottom: 4px;
@@ -116,8 +160,12 @@ def inject_css():
             flex: 1; min-width: 220px; background: #FFFFFF; border: 1px solid #F0E4DA;
             border-radius: 14px; padding: 1.3rem; box-shadow: 0 1px 4px rgba(234,88,12,0.05);
             text-decoration: none; display: block;
+            transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
         }
-        .contact-card:hover { border-color: #EA580C; }
+        .contact-card:hover {
+            border-color: #EA580C; box-shadow: 0 8px 20px rgba(234,88,12,0.14);
+            transform: translateY(-2px);
+        }
         .contact-icon { margin-bottom: 8px; }
         .contact-label { font-size: 0.78rem; color: #9CA3AF; text-transform: uppercase;
             letter-spacing: 0.03em; font-weight: 600; }

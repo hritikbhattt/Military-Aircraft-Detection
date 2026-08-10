@@ -7,13 +7,27 @@ top_nav("Results")
 page_header(CHART_ICON, "Results", "Evaluated on the held-out test split (1,572 images)")
 
 st.markdown("""
-<div class="stat-row">
-    <div class="stat-card"><div class="lbl">mAP50</div><div class="num accent">0.655</div></div>
-    <div class="stat-card"><div class="lbl">mAP50-95</div><div class="num accent">0.578</div></div>
-    <div class="stat-card"><div class="lbl">Precision</div><div class="num">0.703</div></div>
-    <div class="stat-card"><div class="lbl">Recall</div><div class="num">0.559</div></div>
+<div class="hero-wrap">
+<div class="bar-row">
+    <div class="bar-label"><span>mAP50</span><span>65.5%</span></div>
+    <div class="bar-track"><div class="bar-fill" style="--target-width:65.5%;"></div></div>
 </div>
+<div class="bar-row">
+    <div class="bar-label"><span>mAP50-95</span><span>57.8%</span></div>
+    <div class="bar-track"><div class="bar-fill" style="--target-width:57.8%;"></div></div>
+</div>
+<div class="bar-row">
+    <div class="bar-label"><span>Precision</span><span>70.3%</span></div>
+    <div class="bar-track"><div class="bar-fill" style="--target-width:70.3%;"></div></div>
+</div>
+<div class="bar-row">
+    <div class="bar-label"><span>Recall</span><span>55.9%</span></div>
+    <div class="bar-track"><div class="bar-fill" style="--target-width:55.9%;"></div></div>
+</div>
+</div>
+""", unsafe_allow_html=True)
 
+st.markdown("""
 <div class="panel">
 <h3>Summary</h3>
 <p>Trained for 40 epochs on the full 17,687-image training set (YOLOv8s, 640px, batch 16), then
