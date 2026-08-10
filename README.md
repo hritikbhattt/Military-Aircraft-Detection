@@ -4,6 +4,8 @@ A YOLOv8 object detector that identifies and classifies **103 military aircraft 
 
 ![Inference Demo](assets/Screenshot-inference.png)
 
+**🔴 [Try the live demo](https://military-aircraft-detection.streamlit.app)**
+
 ## Contents
 - [Overview](#overview)
 - [Supported Aircraft](#supported-aircraft)
